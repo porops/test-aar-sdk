@@ -1,7 +1,5 @@
 package com.test.sdk;
 
-import android.content.Context;
-
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,7 +11,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SdkManager {
     private static Retrofit retrofit;
 
-    public Retrofit getRetrofit(Context context, String url) {
+    private static SdkManager instance;
+
+    private SdkManager() {
+
+    }
+
+    public synchronized static SdkManager getInstance() {
+
+        if (instance == null) {
+            instance = new SdkManager();
+        }
+
+        return instance;
+    }
+
+    public Retrofit getRetrofit(String url) {
         if (retrofit==null) {
 
             RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.create();
@@ -26,4 +39,6 @@ public class SdkManager {
         }
         return retrofit;
     }
+
+
 }
